@@ -1,0 +1,14 @@
+{
+  "imports": {
+    "./server.ts":      "https://deno.land/std@0.155.0/http/server.ts",
+    "./http_status.ts": "https://deno.land/std@0.155.0/http/http_status.ts",
+    "./util.ts":        "https://deno.land/std@0.155.0/http/util.ts",
+
+    "../path/":         "https://deno.land/std@0.155.0/path/",
+    "../encoding/":     "https://deno.land/std@0.155.0/encoding/",
+    "../media_types/":  "https://deno.land/std@0.155.0/media_types/",
+    "../flags/":        "https://deno.land/std@0.155.0/flags/",
+    "../_util/":        "https://deno.land/std@0.155.0/_util/",
+    "../fmt/":          "https://deno.land/std@0.155.0/fmt/"
+  }
+}
