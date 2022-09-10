@@ -51,6 +51,8 @@ cp  file_server.ts  mod.ts
 patch  mod.ts  plus.patch
 
 colordiff  file_server.ts  file_server_plus.ts
+
+echo 'NOW MANUALLY UPDATE import_map.json VERSION'
 ```
 
 ## Compare [minimal changes](plus.patch) with stock [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
