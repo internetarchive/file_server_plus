@@ -5,15 +5,15 @@
 // TODO(bartlomieju): Add tests like these:
 // https://github.com/indexzero/http-server/blob/master/test/http-server-test.js
 
-import { extname, posix } from "../path/mod.ts";
-import { encode } from "../encoding/hex.ts";
-import { contentType } from "../media_types/mod.ts";
-import { serve, serveTls } from "./server.ts";
-import { Status, STATUS_TEXT } from "./http_status.ts";
-import { parse } from "../flags/mod.ts";
-import { assert } from "../_util/assert.ts";
-import { red } from "../fmt/colors.ts";
-import { compareEtag } from "./util.ts";
+import { extname, posix } from "https://deno.land/std@0.155.0/path/mod.ts";
+import { encode } from "https://deno.land/std@0.155.0/encoding/hex.ts";
+import { contentType } from "https://deno.land/std@0.155.0/media_types/mod.ts";
+import { serve, serveTls } from "https://deno.land/std@0.155.0/http/server.ts";
+import { Status, STATUS_TEXT } from "https://deno.land/std@0.155.0/http/http_status.ts";
+import { parse } from "https://deno.land/std@0.155.0/flags/mod.ts";
+import { assert } from "https://deno.land/std@0.155.0/_util/assert.ts";
+import { red } from "https://deno.land/std@0.155.0/fmt/colors.ts";
+import { compareEtag } from "https://deno.land/std@0.155.0/http/util.ts";
 
 const DEFAULT_CHUNK_SIZE = 16_640;
 

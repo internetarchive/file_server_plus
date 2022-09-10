@@ -8,8 +8,7 @@ The optional argument should be relative file location from the CWD that the ser
 For example, if you have a `public/` subdir in a repository of files that you'd like to serve static files from, and a JS file for additional "routes" in the parent dir called `routes.js`, you'd run this server like:
 ```sh
 cd public/
-deno run --allow-net --allow-read --import-map=/Users/tracey/dev/file_server_plus/import_map.json \
-  /Users/tracey/dev/file_server_plus/mod.ts --cors --handler ../routes.js . # xxx update urls
+deno run --allow-net --allow-read https://deno.land/x/file_server_plus/mod.ts --handler ../routes.js .
 ```
 
 ## Full Example `routes.js`
@@ -50,9 +49,23 @@ cp  file_server.ts  mod.ts
 #   diff -u file_server.ts mod.ts | tee plus.patch
 patch  mod.ts  plus.patch
 
-colordiff  file_server.ts  file_server_plus.ts
+# update this:
+VERSION_STD=0.155.0
+VERSION=0.2.0
 
-echo 'NOW MANUALLY UPDATE import_map.json VERSION'
+# change `from "./`  strings to `from "https://deno.land/std@$VERSION/http/`
+# change `from "../` strings to `from "https://deno.land/std@$VERSION/`
+perl -i -pe "s=from \x22./=from \x22https://deno.land/std\@$VERSION_STD/http/=" mod.ts
+perl -i -pe "s=from \x22../=from \x22https://deno.land/std\@$VERSION_STD/=" mod.ts
+
+colordiff -U5 *.ts
+
+
+git commit -m 'updated to latest file_server.ts' .
+git push
+git tag $VERSION
+git push origin $VERSION
+
 ```
 
 ## Compare [minimal changes](plus.patch) with stock [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
