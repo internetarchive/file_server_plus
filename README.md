@@ -8,7 +8,8 @@ The optional argument should be relative file location from the CWD that the ser
 For example, if you have a `public/` subdir in a repository of files that you'd like to serve static files from, and a JS file for additional "routes" in the parent dir called `routes.js`, you'd run this server like:
 ```sh
 cd public/
-deno run --allow-net --allow-read --import-map=/Users/tracey/dev/file_server_plus/import_map.json /Users/tracey/dev/file_server_plus/mod.ts --cors --handler ../routes.js . # xxx update urls
+deno run --allow-net --allow-read --import-map=/Users/tracey/dev/file_server_plus/import_map.json \
+  /Users/tracey/dev/file_server_plus/mod.ts --cors --handler ../routes.js . # xxx update urls
 ```
 
 ## Full Example `routes.js`
@@ -40,7 +41,8 @@ export default async function handle_or_404(req) {
 
 ## Update ourself to latest version of [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
 ```sh
-wget -qO  file_server.ts  https://raw.githubusercontent.com/denoland/deno_std/main/http/file_server.ts
+wget -qO  file_server.ts \
+  https://raw.githubusercontent.com/denoland/deno_std/main/http/file_server.ts
 
 cp  file_server.ts  mod.ts
 
