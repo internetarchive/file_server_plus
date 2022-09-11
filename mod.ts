@@ -347,25 +347,7 @@ function serveFallback(_req: Request, e: Error): Promise<Response> {
       }),
     );
   } else if (e instanceof Deno.errors.NotFound) {
-    if (!_req.finalHandlerChecked) {
-      _req.finalHandlerChecked = true; // (avoids infinite recursion)
-      return (async () => {
-        if (!globalThis.finalHandler && globalThis.finalHandler !== false && Deno.args.includes('--handler')) {
-          try {
-            const handlerArg: string = Deno.args[1 + Deno.args.indexOf('--handler')];
-            console.warn(`using handler: ${Deno.cwd()}/${handlerArg}`)
-            globalThis.finalHandler = (await import(`${Deno.cwd()}/${handlerArg}`)).default
-          } catch (e) {
-            globalThis.finalHandler = false;
-          }
-        }
-        if (globalThis.finalHandler)
-          return globalThis.finalHandler(_req);
-
-        return serveFallback(_req, e); // re-call ourself, but this time we'll std 404 below
-      })();
-    }
-    delete _req.finalHandlerChecked;
+    if (globalThis.finalHandler) return globalThis.finalHandler(_req);
 
     return Promise.resolve(
       new Response(STATUS_TEXT[Status.NotFound], {
@@ -671,7 +653,7 @@ function normalizeURL(url: string): string {
     : normalizedUrl;
 }
 
-function main() {
+export default function main() {
   const serverArgs = parse(Deno.args, {
     string: ["port", "host", "cert", "key"],
     boolean: ["help", "dir-listing", "dotfiles", "cors", "verbose"],

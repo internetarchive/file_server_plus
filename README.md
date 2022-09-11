@@ -1,24 +1,29 @@
 # file_server_plus
-This is a `deno` static file webserver, copied from: [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts), with an additional optional command line arg: `--handler FILE.ts` to have a final "404 handler" ability to run arbitrary JS/TS, path match routes for dynamically running JS/TS, etc.
+This is a `deno` static file webserver, copied from: [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts), with an additional final "404 handler" ability to run arbitrary JS/TS, path match routes for dynamically running JS/TS, etc.
 
-This can be useful for Single Page Application type setups (and more) for when you want an URL path to run certain code
+This can be useful for Single Page Application type setups (and more) for when you want an URL path to run certain code.
 
-The optional argument should be relative file location from the CWD that the server was run from.
+The script should be relative from the static files directory.
 
 For example, if you have a `public/` subdir in a repository of files that you'd like to serve static files from, and a JS file for additional "routes" in the parent dir called `routes.js`, you'd run this server like:
 ```sh
 cd public/
-deno run --allow-net --allow-read https://deno.land/x/file_server_plus/mod.ts --handler ../routes.js .
+../routes.js
 ```
 
 ## Full Example `routes.js`
 ```js
-export default async function handle_or_404(req) {
+#!/usr/bin/env -S deno run --allow-net --allow-read
+
+import main from 'https://deno.land/x/file_server_plus/mod.ts'
+
+// eslint-disable-next-line no-undef
+globalThis.finalHandler = (req) => {
   const headers = new Headers()
   try {
     const parsed = new URL(req.url)
-    // main website /details/[SOMETHING] logical rewrite back to top page
     if (parsed.pathname.startsWith('/details/')) {
+      // main website /details/[SOMETHING] logical rewrite back to top page
       headers.append('content-type', 'text/html')
       return Promise.resolve(new Response(
         Deno.readTextFileSync('./index.html'),
@@ -27,6 +32,7 @@ export default async function handle_or_404(req) {
     }
   } catch (error) {
     // some kind of error -- issue 500
+    console.warn(error)
     return Promise.resolve(new Response(`Server Error: ${error.message}`, { status: 500, headers }))
   }
 
@@ -34,6 +40,8 @@ export default async function handle_or_404(req) {
   headers.append('content-type', 'text/html')
   return Promise.resolve(new Response('<center><br><br><br><br>Not Found</center>', { status: 404, headers }))
 }
+
+main()
 ```
 
 
@@ -51,7 +59,7 @@ patch  mod.ts  plus.patch
 
 # update this:
 VERSION_STD=0.155.0
-VERSION=0.2.0
+VERSION=0.2.1
 
 # change `from "./`  strings to `from "https://deno.land/std@$VERSION/http/`
 # change `from "../` strings to `from "https://deno.land/std@$VERSION/`
