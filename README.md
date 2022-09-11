@@ -17,7 +17,7 @@ cd public/
 
 import main from 'https://deno.land/x/file_server_plus/mod.ts'
 
-// eslint-disable-next-line no-undef
+// Any request about to 404 arrives here and you get final ability to handle/run code or 404
 globalThis.finalHandler = (req) => {
   const headers = new Headers()
   try {
@@ -45,19 +45,26 @@ main()
 ```
 
 
-
-## Update ourself to latest version of [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
+## Compare [minimal changes](plus.patch) with stock [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
 ```sh
+colordiff  *.ts
+```
+
+
+## Author's Note: upgrade this package to latest version of [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
+```sh
+# get latest version from mothership
 wget -qO  file_server.ts \
   https://raw.githubusercontent.com/denoland/deno_std/main/http/file_server.ts
 
 cp  file_server.ts  mod.ts
 
-# Previously done, after intitially made manual modifications:
-#   diff -u file_server.ts mod.ts | tee plus.patch
+# Re-add our small modification patch into the latest stock file_server.ts.
+# ( NOTE: previously did, after intitially made manual modifications: )
+#     diff -u file_server.ts mod.ts | tee plus.patch
 patch  mod.ts  plus.patch
 
-# update this:
+# update these both as appropriate:
 VERSION_STD=0.155.0
 VERSION=0.2.1
 
@@ -71,12 +78,8 @@ colordiff -U5 *.ts
 
 git commit -m 'updated to latest file_server.ts' .
 git push
-git tag $VERSION
+git tag         $VERSION
 git push origin $VERSION
 
 ```
 
-## Compare [minimal changes](plus.patch) with stock [file_server.ts](https://github.com/denoland/deno_std/blob/main/http/file_server.ts)
-```sh
-colordiff  *.ts
-```
