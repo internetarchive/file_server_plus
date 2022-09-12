@@ -66,7 +66,7 @@ patch  mod.ts  plus.patch
 
 # update these both as appropriate:
 VERSION_STD=0.155.0
-VERSION=0.2.2
+VERSION=0.2.3
 
 # change `from "./`  strings to `from "https://deno.land/std@$VERSION/http/`
 # change `from "../` strings to `from "https://deno.land/std@$VERSION/`
