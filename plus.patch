@@ -1,5 +1,5 @@
---- file_server.ts	2022-09-11 02:46:58.000000000 -0700
-+++ mod.ts	2022-09-11 02:47:30.000000000 -0700
+--- file_server.ts	2022-09-10 14:49:19.000000000 -0700
++++ mod.ts	2022-09-11 18:59:08.000000000 -0700
 @@ -347,6 +347,8 @@
        }),
      );
@@ -9,7 +9,15 @@
      return Promise.resolve(
        new Response(STATUS_TEXT[Status.NotFound], {
          status: Status.NotFound,
-@@ -651,7 +653,7 @@
+@@ -605,6 +607,7 @@
+ 
+   if (opts.enableCors) {
+     assert(response);
++    if (!response.headers.get('access-control-allow-origin'))
+     response.headers.append("access-control-allow-origin", "*");
+     response.headers.append(
+       "access-control-allow-headers",
+@@ -651,7 +654,7 @@
      : normalizedUrl;
  }
  

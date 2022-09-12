@@ -607,6 +607,7 @@ export async function serveDir(req: Request, opts: ServeDirOptions = {}) {
 
   if (opts.enableCors) {
     assert(response);
+    if (!response.headers.get('access-control-allow-origin'))
     response.headers.append("access-control-allow-origin", "*");
     response.headers.append(
       "access-control-allow-headers",

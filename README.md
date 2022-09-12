@@ -66,16 +66,17 @@ patch  mod.ts  plus.patch
 
 # update these both as appropriate:
 VERSION_STD=0.155.0
-VERSION=0.2.1
+VERSION=0.2.2
 
 # change `from "./`  strings to `from "https://deno.land/std@$VERSION/http/`
 # change `from "../` strings to `from "https://deno.land/std@$VERSION/`
 perl -i -pe "s=from \x22./=from \x22https://deno.land/std\@$VERSION_STD/http/=" mod.ts
-perl -i -pe "s=from \x22../=from \x22https://deno.land/std\@$VERSION_STD/=" mod.ts
+perl -i -pe "s=from \x22../=from \x22https://deno.land/std\@$VERSION_STD/="     mod.ts
 
+# review our changes
 colordiff -U5 *.ts
 
-
+# Update a new version to https://deno.land/x
 git commit -m 'updated to latest file_server.ts' .
 git push
 git tag         $VERSION
